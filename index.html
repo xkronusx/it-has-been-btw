@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>it has been, btw</title>
+<meta name="description" content="A running tally of exactly how long it has been since August 1st, 2026.">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0c11;
+    --panel: #12151d;
+    --panel-edge: #1e2330;
+    --hairline: #1c2029;
+    --amber: #ffb454;
+    --amber-dim: #8a6a3a;
+    --amber-glow: rgba(255, 180, 84, 0.35);
+    --text: #cfd3dc;
+    --text-dim: #6d7381;
+    --text-faint: #454b58;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html, body{
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  body{
+    font-family: 'Inter', -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 6vh 5vw;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,180,84,0.05), transparent),
+      repeating-linear-gradient(180deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 3px);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+
+  .eyebrow{
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.9rem;
+  }
+
+  .eyebrow::before{
+    content: '●';
+    color: var(--amber);
+    margin-right: 0.6em;
+    font-size: 0.6rem;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse{
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+  }
+
+  h1{
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    letter-spacing: -0.02em;
+    margin: 0 0 0.3rem 0;
+    color: #f3f2ee;
+    text-align: center;
+  }
+
+  h1 span{
+    color: var(--amber);
+  }
+
+  .subtitle{
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    text-align: center;
+    margin: 0 0 4rem 0;
+    max-width: 32rem;
+    line-height: 1.5;
+  }
+
+  .subtitle strong{
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .display{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.9rem;
+    max-width: 72rem;
+  }
+
+  .unit{
+    background: linear-gradient(180deg, var(--panel), #0d0f15);
+    border: 1px solid var(--panel-edge);
+    border-radius: 10px;
+    padding: 1.4rem 0.6rem 1.1rem;
+    width: 7.2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.03) inset, 0 20px 40px -25px rgba(0,0,0,0.8);
+  }
+
+  /* split-flap seam */
+  .unit::after{
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 50%;
+    height: 1px;
+    background: rgba(0,0,0,0.5);
+  }
+
+  .unit .value{
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    color: var(--amber);
+    text-shadow: 0 0 18px var(--amber-glow);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .unit.seconds .value{
+    animation: flicker 1s steps(1) infinite;
+  }
+
+  @keyframes flicker{
+    0%   { text-shadow: 0 0 18px var(--amber-glow); }
+    48%  { text-shadow: 0 0 18px var(--amber-glow); }
+    50%  { text-shadow: 0 0 6px rgba(255,180,84,0.15); }
+    52%  { text-shadow: 0 0 18px var(--amber-glow); }
+    100% { text-shadow: 0 0 18px var(--amber-glow); }
+  }
+
+  .unit .label{
+    margin-top: 0.55rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .meta{
+    margin-top: 3.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .meta-line{
+    font-size: 0.8rem;
+    color: var(--text-faint);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .meta-line b{
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+
+  footer{
+    margin-top: 4rem;
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    text-align: center;
+  }
+
+  footer a{
+    color: var(--text-dim);
+    text-decoration: none;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  footer a:hover{
+    color: var(--amber);
+    border-color: var(--amber-dim);
+  }
+
+  @media (max-width: 480px){
+    .unit{ width: 5.4rem; padding: 1.1rem 0.3rem 0.9rem; }
+    .display{ gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="eyebrow">since august 1st, 2026</div>
+  <h1>it has been<span>,</span> btw</h1>
+  <p class="subtitle">Not that anyone asked. But here is the exact, running tally — down to the second — of how much time has passed. <strong>It only goes up.</strong></p>
+
+  <div class="display" id="display">
+    <div class="unit">
+      <div class="value" id="years">00</div>
+      <div class="label">Years</div>
+    </div>
+    <div class="unit">
+      <div class="value" id="months">00</div>
+      <div class="label">Months</div>
+    </div>
+    <div class="unit">
+      <div class="value" id="days">00</div>
+      <div class="label">Days</div>
+    </div>
+    <div class="unit">
+      <div class="value" id="hours">00</div>
+      <div class="label">Hours</div>
+    </div>
+    <div class="unit">
+      <div class="value" id="minutes">00</div>
+      <div class="label">Minutes</div>
+    </div>
+    <div class="unit seconds">
+      <div class="value" id="seconds">00</div>
+      <div class="label">Seconds</div>
+    </div>
+  </div>
+
+  <div class="meta">
+    <div class="meta-line">start &mdash; <b id="startLocal"></b></div>
+    <div class="meta-line">total elapsed &mdash; <b id="totalDays"></b> days</div>
+  </div>
+
+  <footer>
+    it has been, btw &middot; counting since 2026-08-01 00:00:00 local time
+  </footer>
+
+<script>
+  const START = new Date(2026, 7, 1, 0, 0, 0); // August 1, 2026, 00:00:00 local time
+
+  function pad(n){
+    return String(n).padStart(2, '0');
+  }
+
+  function diff(start, now){
+    if (now < start){
+      return { years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
+    }
+
+    let years = now.getFullYear() - start.getFullYear();
+    let months = now.getMonth() - start.getMonth();
+    let days = now.getDate() - start.getDate();
+    let hours = now.getHours() - start.getHours();
+    let minutes = now.getMinutes() - start.getMinutes();
+    let seconds = now.getSeconds() - start.getSeconds();
+
+    if (seconds < 0){ seconds += 60; minutes -= 1; }
+    if (minutes < 0){ minutes += 60; hours -= 1; }
+    if (hours < 0){ hours += 24; days -= 1; }
+    if (days < 0){
+      const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+      days += prevMonth.getDate();
+      months -= 1;
+    }
+    if (months < 0){ months += 12; years -= 1; }
+
+    return { years, months, days, hours, minutes, seconds };
+  }
+
+  function tick(){
+    const now = new Date();
+    const d = diff(START, now);
+
+    document.getElementById('years').textContent = pad(d.years);
+    document.getElementById('months').textContent = pad(d.months);
+    document.getElementById('days').textContent = pad(d.days);
+    document.getElementById('hours').textContent = pad(d.hours);
+    document.getElementById('minutes').textContent = pad(d.minutes);
+    document.getElementById('seconds').textContent = pad(d.seconds);
+
+    const totalMs = now - START;
+    const totalDays = Math.max(0, Math.floor(totalMs / 86400000));
+    document.getElementById('totalDays').textContent = totalDays.toLocaleString();
+  }
+
+  document.getElementById('startLocal').textContent =
+    START.toLocaleString(undefined, { dateStyle: 'long', timeStyle: 'short' });
+
+  tick();
+  setInterval(tick, 1000);
+</script>
+</body>
+</html>
