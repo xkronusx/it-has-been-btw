@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>it has been, btw</title>
-<meta name="description" content="A running tally of exactly how long it has been since August 1st, 2026.">
+<title>We got deleted chat 😎</title>
+<meta name="description" content="The exact amount of time between July 27, 2026, 2:23 PM and September 18, 2026, 2:23 PM.">
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -85,6 +85,11 @@
     color: var(--amber);
   }
 
+  .emoji{
+    -webkit-text-stroke: 0;
+    display: inline-block;
+  }
+
   .subtitle{
     font-size: 0.95rem;
     color: var(--text-dim);
@@ -136,18 +141,6 @@
     text-shadow: 0 0 18px var(--amber-glow);
     line-height: 1;
     font-variant-numeric: tabular-nums;
-  }
-
-  .unit.seconds .value{
-    animation: flicker 1s steps(1) infinite;
-  }
-
-  @keyframes flicker{
-    0%   { text-shadow: 0 0 18px var(--amber-glow); }
-    48%  { text-shadow: 0 0 18px var(--amber-glow); }
-    50%  { text-shadow: 0 0 6px rgba(255,180,84,0.15); }
-    52%  { text-shadow: 0 0 18px var(--amber-glow); }
-    100% { text-shadow: 0 0 18px var(--amber-glow); }
   }
 
   .unit .label{
@@ -203,8 +196,8 @@
 </head>
 <body>
 
-  <div class="eyebrow">since july 27th, 2026</div>
-  <h1>it has been<span>,</span> btw</h1>
+  <div class="eyebrow">july 27, 2026 &rarr; september 18, 2026</div>
+  <h1>We got deleted chat <span class="emoji">😎</span></h1>
 
   <div class="display" id="display">
     <div class="unit">
@@ -227,45 +220,47 @@
       <div class="value" id="minutes">00</div>
       <div class="label">Minutes</div>
     </div>
-    <div class="unit seconds">
+    <div class="unit">
       <div class="value" id="seconds">00</div>
       <div class="label">Seconds</div>
     </div>
   </div>
 
   <div class="meta">
-    <div class="meta-line">start &mdash; <b id="startLocal"></b></div>
-    <div class="meta-line">total elapsed &mdash; <b id="totalDays"></b> days</div>
+    <div class="meta-line">from &mdash; <b id="startLocal"></b></div>
+    <div class="meta-line">to &mdash; <b id="endLocal"></b></div>
+    <div class="meta-line">total &mdash; <b id="totalDays"></b> days</div>
   </div>
 
   <footer>
-    it has been, btw &middot; counting since 2026-07-27 14:23:00 local time
+    we got deleted chat &middot; july 27, 2026, 2:23 PM &rarr; september 18, 2026, 2:23 PM
   </footer>
 
 <script>
   const START = new Date(2026, 6, 27, 14, 23, 0); // July 27, 2026, 2:23 PM local time
+  const END = new Date(2026, 8, 18, 14, 23, 0);   // September 18, 2026, 2:23 PM local time
 
   function pad(n){
     return String(n).padStart(2, '0');
   }
 
-  function diff(start, now){
-    if (now < start){
+  function diff(start, end){
+    if (end < start){
       return { years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
     }
 
-    let years = now.getFullYear() - start.getFullYear();
-    let months = now.getMonth() - start.getMonth();
-    let days = now.getDate() - start.getDate();
-    let hours = now.getHours() - start.getHours();
-    let minutes = now.getMinutes() - start.getMinutes();
-    let seconds = now.getSeconds() - start.getSeconds();
+    let years = end.getFullYear() - start.getFullYear();
+    let months = end.getMonth() - start.getMonth();
+    let days = end.getDate() - start.getDate();
+    let hours = end.getHours() - start.getHours();
+    let minutes = end.getMinutes() - start.getMinutes();
+    let seconds = end.getSeconds() - start.getSeconds();
 
     if (seconds < 0){ seconds += 60; minutes -= 1; }
     if (minutes < 0){ minutes += 60; hours -= 1; }
     if (hours < 0){ hours += 24; days -= 1; }
     if (days < 0){
-      const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+      const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0);
       days += prevMonth.getDate();
       months -= 1;
     }
@@ -274,27 +269,23 @@
     return { years, months, days, hours, minutes, seconds };
   }
 
-  function tick(){
-    const now = new Date();
-    const d = diff(START, now);
+  const d = diff(START, END);
 
-    document.getElementById('years').textContent = pad(d.years);
-    document.getElementById('months').textContent = pad(d.months);
-    document.getElementById('days').textContent = pad(d.days);
-    document.getElementById('hours').textContent = pad(d.hours);
-    document.getElementById('minutes').textContent = pad(d.minutes);
-    document.getElementById('seconds').textContent = pad(d.seconds);
+  document.getElementById('years').textContent = pad(d.years);
+  document.getElementById('months').textContent = pad(d.months);
+  document.getElementById('days').textContent = pad(d.days);
+  document.getElementById('hours').textContent = pad(d.hours);
+  document.getElementById('minutes').textContent = pad(d.minutes);
+  document.getElementById('seconds').textContent = pad(d.seconds);
 
-    const totalMs = now - START;
-    const totalDays = Math.max(0, Math.floor(totalMs / 86400000));
-    document.getElementById('totalDays').textContent = totalDays.toLocaleString();
-  }
+  const totalMs = END - START;
+  const totalDays = Math.max(0, Math.floor(totalMs / 86400000));
+  document.getElementById('totalDays').textContent = totalDays.toLocaleString();
 
   document.getElementById('startLocal').textContent =
     START.toLocaleString(undefined, { dateStyle: 'long', timeStyle: 'short' });
-
-  tick();
-  setInterval(tick, 1000);
+  document.getElementById('endLocal').textContent =
+    END.toLocaleString(undefined, { dateStyle: 'long', timeStyle: 'short' });
 </script>
 </body>
 </html>
